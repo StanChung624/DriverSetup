@@ -43,44 +43,44 @@ class Scripts_default:
         """
 
         # initialize logger
-        rd = Logger(file_name=self.__class__.__name__, debug_flag=True)
-        rd.session_start(self.__class__.__name__+' start', 0, '\n')
+        log = Logger(file_name=self.__class__.__name__, debug_flag=True)
+        log.session_start(self.__class__.__name__+' start', 0, '\n')
 
         # INFO checked
         self.INFO = INFO
         self.check_data()
-        rd.print_INFO(INFO)
+        log.print_INFO(INFO)
 
         # wait until given start_when
         if start_when:
-            rd.session_start('wait until '+start_when, 0)
+            log.session_start('wait until '+start_when, 0)
             TimeControl.start_when(start_when)
-            rd.session_end()
+            log.session_end()
 
         # timer - start
         tic = time()
 
         # For single reservation time:        
         if isinstance(INFO["TIME"], str):
-            rd.session_start('run on single reservation time = '+INFO["TIME"],1, '\n')
-            self.start(rd=rd)
+            log.session_start('run on single reservation time = '+INFO["TIME"],1, '\n')
+            self.start(log=log)
 
         # For multiple reservation time:
         elif isinstance(INFO["TIME"], list):
-            rd.session_start('run on multiple reservation time' ,1, '\n')
+            log.session_start('run on multiple reservation time' ,1, '\n')
             TIME_LIST = INFO["TIME"]
             for i in range(len(TIME_LIST)):
                 INFO["TIME"] = TIME_LIST[i]
-                rd.session_start('time = '+INFO["TIME"] ,1, '\n')
+                log.session_start('time = '+INFO["TIME"] ,1, '\n')
                 try:
-                    self.start(rd=rd)
+                    self.start(log=log)
                     return
                 except:
                     continue
         
         elapse = time() - tic
         print("elapse time: ", elapse, ' (sec.)')
-        rd.session_start("elapse time: " + "{:10.4f}".format(elapse) + ' (sec.)', 0, '\n')
+        log.session_start("elapse time: " + "{:10.4f}".format(elapse) + ' (sec.)', 0, '\n')
 
     def dump_required_info(self):
         """
@@ -104,7 +104,7 @@ class Scripts_default:
         """
         
 
-    def start(self, rd:Logger):
+    def start(self, log:Logger):
         """
         start crawling process.
 
