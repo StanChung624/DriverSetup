@@ -104,7 +104,7 @@ class Scripts_default:
         """
         
 
-    def start(self):
+    def start(self, rd:Logger):
         """
         start crawling process.
 
