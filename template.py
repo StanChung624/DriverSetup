@@ -60,23 +60,28 @@ class Scripts_default:
         # timer - start
         tic = time()
 
-        # For single reservation time:        
-        if isinstance(INFO["TIME"], str):
-            log.session_start('run on single reservation time = '+INFO["TIME"],1, '\n')
-            self.start(log=log)
+        # if TIME is in INFO
+        if "TIME" in INFO.keys():
+            # For single reservation time:        
+            if isinstance(INFO["TIME"], str):
+                log.session_start('run on single reservation time = '+INFO["TIME"],1, '\n')
+                self.start(log=log)
 
-        # For multiple reservation time:
-        elif isinstance(INFO["TIME"], list):
-            log.session_start('run on multiple reservation time' ,1, '\n')
-            TIME_LIST = INFO["TIME"]
-            for i in range(len(TIME_LIST)):
-                INFO["TIME"] = TIME_LIST[i]
-                log.session_start('time = '+INFO["TIME"] ,1, '\n')
-                try:
-                    self.start(log=log)
-                    return
-                except:
-                    continue
+            # For multiple reservation time:
+            elif isinstance(INFO["TIME"], list):
+                log.session_start('run on multiple reservation time' ,1, '\n')
+                TIME_LIST = INFO["TIME"]
+                for i in range(len(TIME_LIST)):
+                    INFO["TIME"] = TIME_LIST[i]
+                    log.session_start('time = '+INFO["TIME"] ,1, '\n')
+                    try:
+                        self.start(log=log)
+                        return
+                    except:
+                        continue
+        # else
+        else:
+            self.start(log=log)
         
         elapse = time() - tic
         print("elapse time: ", elapse, ' (sec.)')
